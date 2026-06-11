@@ -1,4 +1,4 @@
-# C Graphics Lab
+# Modeling and Simulating the Solar System in C
 
 This repository documents my journey learning computer graphics,
 mathematics, simulation, and visualization using C, Raylib,
