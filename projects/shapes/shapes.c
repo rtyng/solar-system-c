@@ -1,13 +1,29 @@
 #include <raylib.h>
+#include <math.h>
 
 int main(void){
-    DrawCircle(400, 225, 50, RED);
-    DrawRectangle(100, 100, 200, 200, BLUE);
-    DrawLine(0, 0, 800, 450, GREEN);
-
-    InitWindow(800, 450, "Look at these shapes");
-
     
+    InitWindow(1400, 700, "Look at these shapes");
+    //shapes off center, just need to use half of width and height below
+
+
+
+    while (!WindowShouldClose()){
+        BeginDrawing();
+        ClearBackground(BLACK);
+
+        
+        float t = GetTime();
+
+        // The second DrawCircle was supposed to be it's own planet and not a moon
+        // Probably just need a slight adjustment
+        DrawCircle(700, 350, 50, YELLOW);
+        DrawCircle(400 + 150 * cos(t), 225 + 150 * sin(t), 20, BLUE);
+        DrawCircle(350 + 150 * cos(t), 350 + 150 * sin(t), 15, GREEN);
+        EndDrawing();
+    }
+
+    CloseWindow();  
 
     return 0;
 }
