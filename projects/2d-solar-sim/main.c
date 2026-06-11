@@ -16,43 +16,100 @@ References:
 https://ssd.jpl.nasa.gov/
 
 */
-
-
 #include <raylib.h>
 #include <math.h>
+#include <time.h>
+
+
 
 int main(void){
 
-    // Initialize the simulated days: : 1 real second = 10 simulated days
-    int simulatedDays = (int)(GetTime() * 10);
+    //Need to set up the correct times for correct dates and to stop at this day next year
+
+    struct tm startDate = {0};
+    startDate.tm_year = 2026 - 1900; // Year since 1900
+    startDate.tm_mon = 5; // June (0-indexed)
+    startDate.tm_mday = 11; // Day of the month
+    time_t start = mktime(&startDate);
+
+    struct tm endDate = {0};
+    endDate.tm_year = 2027 - 1900; // Year since 1900
+    endDate.tm_mon = 5; // June (0-indexed)
+    endDate.tm_mday = 11; // Day of the month
+    time_t end = mktime(&endDate);
+
+    int maxSimulatedDays = 365;
+    int simulatedDays = 0;
 
 
     // Window needs to be a lot larger, will just make it to my screen size
     InitWindow(2560, 1600, "Our Solar System");
 
     
-
+    // this loop runs about 60 frames per second
     while (!WindowShouldClose()){
 
+        // declare time and simulation speed
+        float t = GetTime();
+        float simulationspeed = 5.0f;
+
+
+        // convert real time to simulated days
+        simulatedDays = (int)(t*simulationspeed);
+
+
+        // stop at 365 days
+        if (simulatedDays >= maxSimulatedDays) 
+        {
+            simulatedDays = maxSimulatedDays;
+            break;
+        }
+
+
+        // convert simulated days to real dates
+        time_t currentTime = start + (simulatedDays * 24 * 60 * 60);
+        struct tm *current = localtime(&currentTime);
+
+
+
+        //Begin drawing
         BeginDrawing();
         ClearBackground(BLACK);
-        DrawText("Date: 2026-06-11", 40, 40, 30, WHITE);
+
+
+        // Display the current date and Title
+        DrawText(TextFormat("Date: 6/11/2026", 
+            current->tm_year + 1900, 
+            current->tm_mon + 1, current->tm_mday), 
+            40, 40, 30, WHITE);
         DrawText("Randy's 2D Solar System Simulation", 40, 80, 30, WHITE);
 
         // Display the number of simulated days
-        DrawText(TextFormat("Simulated Days: %d", simulatedDays), 40, 120, 30, WHITE)
+        DrawText(TextFormat("Simulated Days: %d", simulatedDays), 40, 120, 30, WHITE);
+        
+        // Display the future date | the starting date is off by 10 days
+        DrawText(
+            TextFormat(
+                "Future Date: %04d-%02d-%02d", 
+                current->tm_year + 1900,
+                current->tm_mon + 1,
+                current->tm_mday
+            ), 
+                40, 160, 30, WHITE);
         
         
-        ;
-        //declare coordinates and angle
 
-        float t = GetTime();
+
+
+        // positions and orbits 
         float sunX = 1280;
         float sunY = 800;
         float mercury1X = 1280 + 150 * cos(t);
         float mercury1Y = 800 + 150 * sin(t);
         float venus2X = 1280 + 150 * cos(t);
         float venus2Y = 800 + 150 * sin(t);
+
+        
 
         //DrawCircleLines should come before DrawCircle to preserve while loop data flow
         DrawCircleLines(sunX, sunY, 150, GRAY);
