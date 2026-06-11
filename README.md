@@ -11,5 +11,6 @@ Current goals:
 - Create a solar system simulation
 - Experiment with OpenGL
 - Improve software engineering skills
+- Create Models using publicly available date for Jupiter's and Saturn's moons
 
 Projects are added incrementally as I learn.
