@@ -6,7 +6,7 @@ Using raylib to make the sphere look like earth
 
 Sources:
 https://en.wikipedia.org/wiki/Equirectangular_projection
-
+https://commons.wikimedia.org/wiki/File:Solarsystemscope_texture_8k_earth_daymap.jpg
 
 build
 

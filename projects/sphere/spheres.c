@@ -17,6 +17,11 @@ Milestones
     4. directional sunlight 
     5. moon
 
+Current Progress
+    - The earth is currently textured with a high-resolution image.
+        - There is a lot of stretching from the poles, texture and mesh UVs are in disagreement with each other
+        - texture is loading fine at 1920x960, so the issue is likely in the mesh generation or UV mapping.
+
 */
 #include <raylib.h>
 #include <math.h>
@@ -46,7 +51,10 @@ int main(void)
 
 
     // load assets 
-    Texture2D earthTexture = LoadTexture("assets/Equirectangular_projection_SW.png");
+    Texture2D earthTexture = LoadTexture("assets/earth_texture_8k.png");
+
+    // print dimensions of the loaded texture
+    TraceLog(LOG_INFO, "Earth texture dimensions: %i x %i", earthTexture.width, earthTexture.height);
 
     // verify that the texture was loaded correctly
     if (earthTexture.id == 0)
@@ -57,8 +65,9 @@ int main(void)
     TraceLog(LOG_INFO, "Earth texture loaded successfully");
 
 
-    // setting up mesh, model, texture
-    Mesh earthMesh = GenMeshSphere(1.5f, 64, 64);
+    // setting up mesh, model, texture | use 256 for smoothness
+    // 128 rings shows its a mapping issue
+    Mesh earthMesh = GenMeshSphere(1.5f, 128, 256);
     Model earth = LoadModelFromMesh(earthMesh);
 
     earth.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = earthTexture;
@@ -117,7 +126,7 @@ int main(void)
 
         // draw the 3D objects and grid
         DrawModel(earth, (Vector3){ 0, 0, 0 }, 1.0f, WHITE);
-        DrawSphereWires((Vector3){ 0, 0, 0 }, 1.5f, 32, 32, WHITE);
+        // DrawSphereWires((Vector3){ 0, 0, 0 }, 1.5f, 32, 32, WHITE);
         DrawGrid(10, 1.0f);
 
 
