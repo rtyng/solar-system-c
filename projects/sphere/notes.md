@@ -3,6 +3,12 @@ mouse/keyboard input = checked every frame
 camera position/target = updated every frame
 scene = redrawn every frame
 
+Remember: every single frame these below are happening
+
+Input
+Update
+Draw
+
 
 Declarations/initial setup outside loop
 Interactive behavior inside loop

@@ -5,6 +5,18 @@ Goals:
 Good camera control
 Add detail to the sphere to make it look like earth
 
+Milestones
+    1. Wireframe earth
+    2. Textured earth  
+        1. Wireframe sphere
+        2. Textured Earth: oceans + continents
+        3. Rotation
+        4. Lighting
+        5. Clouds / atmosphere
+    3. earth rotation
+    4. directional sunlight 
+    5. moon
+
 */
 #include <raylib.h>
 #include <math.h>
@@ -15,7 +27,7 @@ int main(void)
 {   
 
     // initialize the window
-    InitWindow(1440, 800, "3D Sphere Lab");
+    InitWindow(2560, 1600, "3D Sphere Lab");
 
 
     // initialize the 3D camera
@@ -33,6 +45,23 @@ int main(void)
 
 
 
+    // load assets 
+    Texture2D earthTexture = LoadTexture("assets/Equirectangular_projection_SW.png");
+
+    // verify that the texture was loaded correctly
+    if (earthTexture.id == 0)
+    {
+        TraceLog(LOG_ERROR, "Failed to load earth texture");
+        return -1;
+    }
+    TraceLog(LOG_INFO, "Earth texture loaded successfully");
+
+
+    // setting up mesh, model, texture
+    Mesh earthMesh = GenMeshSphere(1.5f, 64, 64);
+    Model earth = LoadModelFromMesh(earthMesh);
+
+    earth.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = earthTexture;
     // set the target frame rate, increase to 240 for fun
     SetTargetFPS(240);
 
@@ -76,7 +105,7 @@ int main(void)
         // camera movement depends on input in every frame
         // this is unnecessary with the above approach
         //UpdateCamera(&camera, CAMERA_FREE);
-        
+
 
         // draw the scene
         BeginDrawing();
@@ -87,7 +116,7 @@ int main(void)
 
 
         // draw the 3D objects and grid
-        DrawSphere((Vector3){ 0, 0, 0 }, 1.5f, BLUE);
+        DrawModel(earth, (Vector3){ 0, 0, 0 }, 1.0f, WHITE);
         DrawSphereWires((Vector3){ 0, 0, 0 }, 1.5f, 32, 32, WHITE);
         DrawGrid(10, 1.0f);
 
@@ -101,6 +130,9 @@ int main(void)
 
         EndDrawing();
     }
+
+    UnloadModel(earth);
+    UnloadTexture(earthTexture);
 
     CloseWindow();
     return 0;

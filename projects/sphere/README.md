@@ -5,7 +5,7 @@ Current goal:
 Using raylib to make the sphere look like earth
 
 Sources:
-https://science.nasa.gov/earth/earth-observatory/collections/blue-marble/?utm_source=chatgpt.com
+https://en.wikipedia.org/wiki/Equirectangular_projection
 
 
 build
