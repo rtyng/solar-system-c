@@ -128,7 +128,7 @@ int main(void){
 
         DrawCircle(sunX, sunY, 50, YELLOW);
 
-        DrawCircle(sunX + 150 * cos(t), sunY + 150 * sin(t), 20, ORANGE);
+        DrawCircle(sunX + 25 * cos(t), sunY + 150 * sin(t), 20, ORANGE);
         DrawCircle(sunX + 220 * cos(t*0.7), sunY + 220 * sin(t*0.7), 15, BLUE);
         DrawCircle(sunX + 290 * cos(t*0.5), sunY + 290 * sin(t*0.5), 10, GREEN);
         DrawCircle(sunX + 360 * cos(t*0.3), sunY + 360 * sin(t*0.3), 5, RED);

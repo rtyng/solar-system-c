@@ -26,13 +26,36 @@ Current Progress
 #include <raylib.h>
 #include <math.h>
 
+#define STAR_COUNT 1000
 
 
 int main(void)
 {   
 
+
     // initialize the window
     InitWindow(2560, 1600, "3D Sphere Lab");
+
+
+    // generate a set of random stars
+    Vector2 stars[STAR_COUNT];
+    Color starColors[STAR_COUNT];
+
+    for (int i = 0; i < STAR_COUNT; i++){
+        stars[i].x = GetRandomValue(0, 2560);
+        stars[i].y = GetRandomValue(0, 1600);
+
+        int brightness = GetRandomValue(100, 255);
+        starColors[i] = (Color){ brightness, brightness, brightness, 255 };
+    }
+
+    // set up earth's rotation
+    float earthRotation = 0.0f;
+    float earthRotationSpeed = 10.00f;
+
+    // set up the earth's axial tilt
+    float earthAxialTilt = 23.44f * DEG2RAD;
+    Vector3 earthAxis = (Vector3){ 0.0f, cosf(earthAxialTilt), sinf(earthAxialTilt) };
 
 
     // initialize the 3D camera
@@ -116,16 +139,30 @@ int main(void)
         //UpdateCamera(&camera, CAMERA_FREE);
 
 
+        // set the rotation of the earth
+
+        earthRotation += earthRotationSpeed*GetFrameTime();
         // draw the scene
         BeginDrawing();
         ClearBackground(BLACK);
+
+        // draw the stars
+        for (int i = 0; i < STAR_COUNT; i++){
+            DrawPixelV(stars[i], starColors[i]);
+        }
 
         // begin 3D mode
         BeginMode3D(camera);
 
 
-        // draw the 3D objects and grid
-        DrawModel(earth, (Vector3){ 0, 0, 0 }, 1.0f, WHITE);
+        // use DrawModelEx to draw and update the earth with rotation
+        // to get accurate with earth's rotation axis, will need to adjust the rotation vector's z value and use trig above to get an accurate vector
+        DrawModelEx(earth, 
+            (Vector3){ 0, 0, 0 },
+            earthAxis,
+            earthRotation,
+            (Vector3){ 1.0f, 1.0f, 1.0f }, 
+            WHITE);
         // DrawSphereWires((Vector3){ 0, 0, 0 }, 1.5f, 32, 32, WHITE);
         DrawGrid(10, 1.0f);
 
@@ -135,7 +172,7 @@ int main(void)
 
 
         // draw 2D elements
-        DrawText("3D Sphere Lab", 40, 40, 30, WHITE);
+        DrawText("Planet Earth in C by Randy Tyng", 40, 40, 30, WHITE);
 
         EndDrawing();
     }
