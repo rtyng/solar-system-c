@@ -82,7 +82,7 @@ int main(void) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Creating window
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Texture Coordinates", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(2560, 1600, "Texture Coordinates", NULL, NULL);
     if (!window) {
         fprintf(stderr, "Failed to create GLFW window\n");
         glfwTerminate();

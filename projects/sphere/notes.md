@@ -1,3 +1,27 @@
+Goals:
+
+Good camera control
+Add detail to the sphere to make it look like earth
+
+Milestones
+    1. Wireframe earth
+    2. Textured earth  
+        1. Wireframe sphere
+        2. Textured Earth: oceans + continents
+        3. Rotation
+        4. Lighting
+        5. Clouds / atmosphere
+    3. earth rotation
+    4. directional sunlight 
+    5. moon
+
+Current Progress
+    - The earth is currently textured with a high-resolution image.
+        - There is a lot of stretching from the poles, texture and mesh UVs are in disagreement with each other
+        - texture is loading fine at 1920x960, so the issue is likely in the mesh generation or UV mapping.
+
+
+
 camera = persistent object
 mouse/keyboard input = checked every frame
 camera position/target = updated every frame
@@ -53,3 +77,130 @@ lighting
 cloud layer / atmosphere effect
     ↓
 shader later
+
+
+Lighting question
+
+can i make the brightness depend on which way the surface is facing relative to the Sun?
+
+Conceptual roadmap for shaders:
+- I pretty much did this already with openGL but its been a couple days and I need a reminder
+
+Setup phase, before loop:
+1. Load Earth texture
+2. Generate sphere mesh/model
+3. Assign texture to model material
+4. Load shader
+5. Assign shader to model material
+6. Get shader uniform locations
+7. Define sun/light direction
+
+Before I even run the loop: 
+
+I need to go into those .fs and .vs files and put stuff in there for raylib to use. I am now the one who needs to tell the GPU what to do
+
+Earth Mesh
+    ↓
+Vertices
+    ↓
+Vertex Shader
+
+.vs -> vertex shader file
+.fs -> fragment shader file
+
+the earth sphere has thousands of vertices where each vertex gets processed by the vertex shader
+
+the fragment shader runs once for every pixel
+
+conceptually for the .vs:
+
+Take mesh data
+Pass texture coordinates along
+Pass normals along
+Put vertices on screen
+
+conceptually for the .fs:
+
+Get Earth texture color
+Measure angle between surface and Sun
+Darken night side
+Keep day side bright
+
+in line 15 brightness is just the max of the dot product because there is no such thing as negative light
+
+float brightness =
+        max(dot(normalize(fragNormal),
+                normalize(lightDirection)), 0.0);
+
+turns out this the core of what is going on for brightness under the hood in anything that needs to use graphics
+
+dot product uses cosine, so in terms of the earth relative to the sun's light, the angle is pretty representative, so at noon standing on earth with the sun directly overhead, this dot product specifically comes out to 1 = maximum brightness
+
+
+gonna have to mess with numbers a little bit after I get this all runnning
+
+light
+
+
+    ↓
+Triangles
+    ↓
+Rasterization
+    ↓
+Pixels
+    ↓
+Fragment Shader
+    ↓
+Screen
+
+Loop phase:
+1. Update camera/input
+2. Update Earth rotation
+3. Update shader values if they change
+4. BeginDrawing()
+5. BeginMode3D(camera)
+6. DrawModelEx(...)
+7. EndMode3D()
+8. EndDrawing()
+
+
+
+#version 330
+
+in vec2 fragTexCoord;
+in vec3 fragNormal;
+
+uniform sampler2D texture0;
+uniform vec3 lightDirectio;
+
+out vec4 finalColor;
+
+void main()
+{
+    vec4 texColor = texture(texture0, fragTexCoord);
+
+    float brightness =
+        max(dot(normalize(fragNormal),
+                normalize(lightDirection)), 0.0);
+
+    finalColor = texColor * brightness;
+}
+
+#version 330
+
+in vec3 vertexPosition;
+in vec2 vertexTexCoord;
+in vec3 vertexNormal;
+
+out vec2 fragTexCoord;
+out vec3 fragNormal;
+
+uniform mat4 mvp;
+
+void main()
+{
+    fragTexCoord = vertexTexCoord;
+    fragNormal = vertexNormal;
+
+    gl_Position = mvp * vec4(vertexPosition, 1.0);
+}
