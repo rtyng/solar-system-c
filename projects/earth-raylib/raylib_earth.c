@@ -1,6 +1,5 @@
 /* 
-Randy's 3D Sphere Simulation 
-
+Randy's 3D Realistic Earth Simulation 
 */
 #include <raylib.h>
 #include <math.h>

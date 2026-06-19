@@ -189,3 +189,12 @@ Current Goal as of 9:32 am 6/19/2026
         - LearnopenGL
             - https://learnopengl.com/PBR/Lighting
 
+
+New Session at 2:21 pm 6/19/26
+
+The issue with the dark side rotating with the earth was resolved in the vertex shader (.vs) file. I needed to use raylib's matModel, a 4 x 4 matrix model that needed to be inverted, transposed, turned into 3 x 3 matrix, multiplied by the vertexNormal and then normalized in order to get the get fragNormal out of "object space" and into the local space of my screen. The dark side of the earth was there before but it was stuck onto earth's rotation
+
+Next goal with the lighting:
+    - The dark side is transparent and it isn't one line. It's not just the dark side either. It seems like the fragment and vertex shading has made the entire Earth sphere somewhat transparent depending on how I move it around and view it at different angles. 
+    - I think the issue lies in the shading. Looking back at older videos, the sphere model was not see through at all. 
+        - I am going to need to more reading and research into LearnOpenGL and into raylib as well.
