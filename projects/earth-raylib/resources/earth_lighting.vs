@@ -1,6 +1,6 @@
 #version 330
 
-// vertex attributes, wont need color for earth with a texture wrapped around it
+// vertex attributes, shouldn't need color for earth with a texture wrapped around it
 in vec3 vertexPosition;
 in vec2 vertexTexCoord;
 in vec3 vertexNormal;

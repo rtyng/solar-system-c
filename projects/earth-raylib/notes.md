@@ -192,9 +192,41 @@ Current Goal as of 9:32 am 6/19/2026
 
 New Session at 2:21 pm 6/19/26
 
-The issue with the dark side rotating with the earth was resolved in the vertex shader (.vs) file. I needed to use raylib's matModel, a 4 x 4 matrix model that needed to be inverted, transposed, turned into 3 x 3 matrix, multiplied by the vertexNormal and then normalized in order to get the get fragNormal out of "object space" and into the local space of my screen. The dark side of the earth was there before but it was stuck onto earth's rotation
+The issue with the dark side rotating with the earth was resolved in the vertex shader (.vs) file. I needed to use raylib's matModel, a 4 x 4 matrix model that needed to be inverted, transposed, turned into 3 x 3 matrix, multiplied by the vertexNormal and then normalized in order to get the get fragNormal out of "object space" and into the local space of my screen. The dark side of the earth was there before but it was moving with the earth's rotation
 
 Next goal with the lighting:
     - The dark side is transparent and it isn't one line. It's not just the dark side either. It seems like the fragment and vertex shading has made the entire Earth sphere somewhat transparent depending on how I move it around and view it at different angles. 
     - I think the issue lies in the shading. Looking back at older videos, the sphere model was not see through at all. 
         - I am going to need to more reading and research into LearnOpenGL and into raylib as well.
+
+Session at 6/21/26 at 11:50 am
+
+- goal for this session
+    - the dark side is completely see through
+        - the opposite side of the globe is not
+    - why is that?
+        - Has to be some issue with shaders and the math in the .vs and .fs files
+        - the earth was not see through at all before I tried to implement lighting
+    - Potential path to solution
+        - look at the raylib github 
+            - look into the .vs and .fs files for their examples
+                - figure out what their shader code is doing 
+    - Raylib basic lighting example by Chris Camacho 
+        - in this example the shader was updated with the camera view vector in the while loop
+        - he also had to use BeginShaderMode under BeginDrawing in order to make that happen
+            - try it out
+            - chris didn't have as much camera code for that example to work the way it did so I am just going to do what he did to cut down what's inside the while loop
+
+        - going to try and compile it without using BeginShaderMode under BeginDrawing and see what happens
+        - copying an example was a bad idea. it compiled but the camera positioning code I have is what I need for my purposes
+
+- Concept of .vs and .fs 
+    - Vertex Shaders -> Geometry 
+        - the vertex shaders are preparing the data for the fragment shader
+    - Fragment Shaders -> Surface/Pixel 
+        - What color should this pixel be?
+            - This is where I should focus on for this issue 
+    - Investigative questions
+        - What color is being sent out?
+        - what alpha value is being sent out?
+        - what brightness value is being sent out?

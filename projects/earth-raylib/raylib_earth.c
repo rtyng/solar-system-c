@@ -11,9 +11,22 @@ Randy's 3D Realistic Earth Simulation
 int main(void)
 {   
 
-
     // initialize the window for my screen
     InitWindow(2560, 1600, "3D Sphere Lab");
+
+
+    // initialize the 3D camera
+    Camera3D camera = { 0 };
+    camera.position = (Vector3){ 4.0f, 4.0f, 4.0f };
+    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
+    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
+    camera.fovy = 45.0f;
+    camera.projection = CAMERA_PERSPECTIVE;
+
+
+    float cameraDistance = 6.0f;
+    float yaw = 0.8f;    // left/right angle
+    float pitch = 0.5f;  // up/down angle
 
 
     // generate a set of random stars
@@ -49,21 +62,6 @@ int main(void)
     Vector3 earthAxis = (Vector3){ 0.0f, cosf(earthAxialTilt), sinf(earthAxialTilt) };
 
 
-    // initialize the 3D camera
-    Camera3D camera = { 0 };
-    camera.position = (Vector3){ 4.0f, 4.0f, 4.0f };
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
-    camera.fovy = 45.0f;
-    camera.projection = CAMERA_PERSPECTIVE;
-
-
-    float cameraDistance = 6.0f;
-    float yaw = 0.8f;    // left/right angle
-    float pitch = 0.5f;  // up/down angle
-
-
-
     // load assets 
     Texture2D earthTexture = LoadTexture("assets/earth_texture_8k.png");
 
@@ -90,14 +88,15 @@ int main(void)
     // cheking for shader loading errors
     printf("Loading shaders...\n");
 
+    // create the lightshader using .vs and .fs files
     Shader lightShader = LoadShader(
-    "assets/earth_lighting.vs",
-    "assets/earth_lighting.fs"
+    "resources/earth_lighting.vs",
+    "resources/earth_lighting.fs"
     );
 
     printf("Shader ID: %d\n", lightShader.id);
 
-    // set shader value, for now they will be static outside the loop
+    // set the shader uniform value for sunPosition and lightDirection
     SetShaderValue(lightShader, GetShaderLocation(lightShader, "sunPosition"), &sunPosition, SHADER_UNIFORM_VEC3);
     SetShaderValue(lightShader, GetShaderLocation(lightShader, "lightDirection"), &lightDirection, SHADER_UNIFORM_VEC3);
 
@@ -108,12 +107,12 @@ int main(void)
     // assign the shader to the earth's material
     earth.materials[0].shader = lightShader;
 
-    // set the target frame rate, increase to 240 for fun
+    // set the target frame rate to 240 for fun
     SetTargetFPS(240);
 
     while (!WindowShouldClose())
     {   
-
+ 
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
         {
             // Get the mouse movement
@@ -128,7 +127,7 @@ int main(void)
         if (pitch > 1.57f) pitch = 1.57f;
         if (pitch < -1.57f) pitch = -1.57f;
         
-
+        
         // trying different approach
         cameraDistance -= GetMouseWheelMove() * 0.5f;
 
@@ -138,12 +137,11 @@ int main(void)
         camera.position.y = cameraDistance * sinf(pitch);
         camera.position.z = cameraDistance * cosf(pitch) * sinf(yaw);
 
-
         // set the rotation of the earth
         earthRotation += earthRotationSpeed*GetFrameTime();
 
 
-        // draw the scene
+        // draw the scene, black background for representing the stars
         BeginDrawing();
         ClearBackground(BLACK);
 
@@ -154,6 +152,7 @@ int main(void)
 
         // begin 3D mode
         BeginMode3D(camera);
+
 
 
         // use DrawModelEx to draw and update the earth with rotation

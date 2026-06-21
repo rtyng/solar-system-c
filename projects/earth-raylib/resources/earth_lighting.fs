@@ -13,9 +13,10 @@ out vec4 finalColor;
 
 void main()
 {
-    
+    // finding earth texture color for pixels
     vec4 texColor = texture(texture0, fragTexCoord);
 
+    // determing how much sunlight hits the pixels
     float brightness =
         max(dot(normalize(fragNormal),
                 normalize(lightDirection)), 0.0);
