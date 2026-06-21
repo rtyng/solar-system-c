@@ -230,3 +230,26 @@ Session at 6/21/26 at 11:50 am
         - What color is being sent out?
         - what alpha value is being sent out?
         - what brightness value is being sent out?
+
+session at 6/21/26 around 3 pm
+
+- going to be messing around the .fs and .vs 
+    - really going to be adjusting and readjusting values, variables in .fs to test graphical output on the screen 
+    - I might be accidentally messing with the alpha in 4 d rgb vector
+        - (0,0,0,0) --> alpha should control the transparency
+
+- after taking a minute to implement a fix 
+    - the entire globe is more transparent
+        - https://learnopengl.com/Getting-started/Shaders
+            - im going to come back after I spend time reading through this
+
+- figured it out
+
+- Notes for next session
+    - Earth's dark side isn't completely pitch black
+    - Examples:
+        - atmospheric scattering
+        - moonlight
+        - city light
+        - reflected sunlight
+    - Luckily to get these effects it's really just an manipulation of to the calculation of the brightness in the fragment shader

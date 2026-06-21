@@ -1,6 +1,7 @@
 #version 330
 
 // Input vertex attributes from vertex shader
+in vec3 fragPosition;
 in vec2 fragTexCoord;
 in vec3 fragNormal;
 
@@ -13,7 +14,7 @@ out vec4 finalColor;
 
 void main()
 {
-    // finding earth texture color for pixels
+    // texColor is a 4d vector -> (R, G, B, A)
     vec4 texColor = texture(texture0, fragTexCoord);
 
     // determing how much sunlight hits the pixels
@@ -21,5 +22,9 @@ void main()
         max(dot(normalize(fragNormal),
                 normalize(lightDirection)), 0.0);
 
-    finalColor = texColor * brightness;
+
+
+    // took two hours to figure that out -> certified graphics programmer
+    finalColor.a = texColor.a;
+    finalColor.rgb = texColor.rgb * brightness;
 }

@@ -1,11 +1,12 @@
 #version 330
 
-// vertex attributes, shouldn't need color for earth with a texture wrapped around it
+// inputting vertex attributes
 in vec3 vertexPosition;
 in vec2 vertexTexCoord;
 in vec3 vertexNormal;
 
-// output for fragment shader
+// outputs for the fragment shader 
+out vec3 fragPosition;
 out vec2 fragTexCoord;
 out vec3 fragNormal;
 
