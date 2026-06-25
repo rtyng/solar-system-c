@@ -34,6 +34,15 @@ camera_controller.c / camera_controller.h
 ui.c / ui.h
     - Planet info panel, labels, debug text.
 
+.c file  = implementation: how something works | where the logic lives
+.h file  = interface: what other files are allowed to use
+
+example:
+orbit.h says:
+    These functions/types exist.
+
+orbit.c says:
+    Here is how those functions actually work.
 
 
 Math/Physics resources 
@@ -57,15 +66,3 @@ dot product lighting
 
 
 
-Milestone Order
-
-1. Sun + Earth only
-2. Earth orbits Sun in 3D
-3. Camera can zoom/focus on Earth
-4. Add Mars
-5. Generalize planet data into structs
-6. Add all planets
-7. Add elliptical orbits
-8. Add inclination
-9. Add click selection
-10. Add UI/data panel
