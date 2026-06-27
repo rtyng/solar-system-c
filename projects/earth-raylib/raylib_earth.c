@@ -12,7 +12,7 @@ int main(void)
 {   
 
     // initialize the window for my screen
-    InitWindow(2560, 1600, "3D Sphere Lab");
+    InitWindow(1920, 1080, "3D Sphere Lab");
 
 
     // initialize the 3D camera

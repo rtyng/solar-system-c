@@ -19,3 +19,19 @@ orbit.h describes the orbit logic
             - these 4 things are all actions, not structs, so I need to declare these as functions that need specific information in order to update
 
 
+In order to correctly update the state of an Orbit, UpdateOrbit() will need:
+1. Where the orbit currently is -> OrbitParams params
+2. What kind of orbit it is -> OrbitState state
+3. How much time has passed this frame -> float dt 
+
+How far along the circle should this planet move per unit time? -> Orbital Period
+
+----------------------------------------------------------------
+
+Crucial things to consider for the orbital mechanics
+
+Raylib's 3d coordinate system
+- satellites should start with tilted orbit spanning all 3 axis, due to raylib defaulting to a y-up coordinate system
+
+Float precision drift 
+- over long sim runs, single precision floating point numbers in raylib's Vector3 will introduce minor rounding errors. just need to keep dt small

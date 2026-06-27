@@ -11,97 +11,40 @@ Version 1:
 circular orbit
 position from angle
 
-OrbitParams describes the circle.
-OrbitState stores the current point on that circle.
-UpdateOrbit moves that point forward.
+Dependencies
+raylib.h 
+raymath.h
 
-Notes on interface implementations
-
-
-Will be using raylib.h for its structs
+main.c needs this module to use its functions
+orbit.c needs this to prove implementations match the contract between main and the module
 ------------------------------------------------------------------------------
 */
-#include <raylib.h>
+#ifndef ORBIT_H
+#define ORBIT_H
 
-// contains semiMajorAxis, eccentricity, OrbitalPeriod, inclination, initialPhase. All floats
+#include "raylib.h"
+
+// Sun's gravitational parameter: GM_sun in m^3 / s^2
+// mu -> Standard Gravitational Parameter of a celestial body
+#define MU_SUN 1.32712440018e20
+
+// Scale: 1 raylib unit = 1,000,000,000 meters
+// Tweak this to zoom the solar system in/out
+#define SIM_SCALE 1000000000.0
+
 typedef struct {
-
-    float semiMajorAxis;
-    float eccentricity;
-    float OrbitalPeriod;
-    float inclination;
-    float initialPhase;
-
-} OrbitParams;
-
-// contains position, velocity, acceleration, currentAngle, and elapsedTime. 
-typedef struct {
-
-    Vector3 position;
-    Vector3 velocity;
-    Vector3 acceleration;
-    float currentAngle;
-    float elapsedTime;
-
+    Vector3 position;     // Physics position in meters relative to the Sun
+    Vector3 velocity;     // Physics velocity in meters per second
 } OrbitState;
 
-// Initializes and returns the starting state of an orbit from the given orbital parameters.
-OrbitState InitOrbit( OrbitParams params ){
+// Inputs are relative to the Sun | no pointers here. just returns a new Vector 3
+Vector3 ComputeAcceleration(Vector3 position, double mu);
 
-    OrbitState state;
+// Returns nothing. *state -> gives location of original orbit in memory | Can use UpdateOrbit(&state) to change position and velocity 
+void UpdateOrbit(OrbitState *state, double mu, float dt);
 
-    state.elapsedTime = 0.0f;
-    state.currentAngle = params.initialPhase;
-    
-    // version 1 circular orbit comes from position
-    state.position.x = params.semiMajorAxis*cosf(state.currentAngle);
-    state.position.y = 0.0f;
-    state.position.z = params.semiMajorAxis*sinf(state.currentAngle);
+// Coordinate conversion helper | Returns Vector3 object
+Vector3 PhysicsToRender(Vector3 physicsPosition);
 
-    // start with zero acceleration and velocity for now
-    state.velocity = (Vector3){ 0.0f, 0.0f, 0.0f };
-    state.acceleration = (Vector3){ 0.0f, 0.0f, 0.0f };
-
-
-    return state;
-}
-
-
-// UpdateOrbit() takes an input OrbitState state and updates its values
-OrbitState UpdateOrbit( OrbitState state ){
-
-    OrbitState updatedState;
-
-    updatedState.elapsedTime = updatedState.elapsedTime - state.elapsedTime;
-    // take a break
-
-
-    return updatedState;
-}
-
-// returning
-
-int ReturnOrbit(){
-
-
-
-
-
-    return 0;
-}
-
-// resetting
-
-int ResetOrbit(){
-
-
-
-
-
-
-    return 0; 
-}
-
-
-
+#endif
 

@@ -15,3 +15,25 @@ Milestone Order
 8. Add inclination
 9. Add click selection
 10. Add UI/data panel
+
+
+Dependencies so far:
+
+<raylib.h>
+<raymath.h>
+
+---------------------------------------------------
+
+Development loop:
+
+orbit.h
+      ↓
+orbit.c
+      ↓
+main.c (minimal test)
+      ↓
+Verify it works
+      ↓
+Next module
+
+will be easier to catch bugs and pinpoint where they are coming from
