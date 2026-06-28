@@ -13,38 +13,42 @@ position from angle
 
 Dependencies
 raylib.h 
-raymath.h
 
 main.c needs this module to use its functions
 orbit.c needs this to prove implementations match the contract between main and the module
 ------------------------------------------------------------------------------
 */
-#ifndef ORBIT_H
-#define ORBIT_H
+#ifndef ORBIT_HPP
+#define ORBIT_HPP
 
-#include "raylib.h"
+#include <raylib.h>
 
 // Sun's gravitational parameter: GM_sun in m^3 / s^2
-// mu -> Standard Gravitational Parameter of a celestial body
-#define MU_SUN 1.32712440018e20
+constexpr double MU_SUN = 1.32712440018e20;
 
-// Scale: 1 raylib unit = 1,000,000,000 meters
-// Tweak this to zoom the solar system in/out
-#define SIM_SCALE 1000000000.0
+// Scale: 1 raylib world unit = 1,000,000,000 meters
+constexpr double SIM_SCALE = 1.0e9;
 
-typedef struct {
-    Vector3 position;     // Physics position in meters relative to the Sun
-    Vector3 velocity;     // Physics velocity in meters per second
-} OrbitState;
+class Orbit
+{
+public:
+    Orbit(Vector3 initialPosition, Vector3 initialVelocity, double mu = MU_SUN);
 
-// Inputs are relative to the Sun | no pointers here. just returns a new Vector 3
-Vector3 ComputeAcceleration(Vector3 position, double mu);
+    void Update(float dt);
 
-// Returns nothing. *state -> gives location of original orbit in memory | Can use UpdateOrbit(&state) to change position and velocity 
-void UpdateOrbit(OrbitState *state, double mu, float dt);
+    Vector3 GetPosition() const;
+    Vector3 GetVelocity() const;
+    Vector3 GetRenderPosition() const;
 
-// Coordinate conversion helper | Returns Vector3 object
-Vector3 PhysicsToRender(Vector3 physicsPosition);
+    void SetPosition(Vector3 newPosition);
+    void SetVelocity(Vector3 newVelocity);
+
+private:
+    Vector3 position;
+    Vector3 velocity;
+    double gravitationalParameter;
+
+    Vector3 ComputeAcceleration() const;
+};
 
 #endif
-

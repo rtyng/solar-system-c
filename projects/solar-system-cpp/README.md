@@ -38,3 +38,6 @@ Next module
 
 will be easier to catch bugs and pinpoint where they are coming from
 
+general build command 
+
+g++ file.cpp -std=c++20 -Wall -Wextra -Wpedantic -o file.exe
