@@ -26,14 +26,15 @@ Dependencies so far:
 
 Development loop:
 
-orbit.h
+module
       ↓
-orbit.c
+source 
       ↓
-main.c (minimal test)
+main source 
       ↓
 Verify it works
       ↓
 Next module
 
 will be easier to catch bugs and pinpoint where they are coming from
+
