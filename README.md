@@ -1,4 +1,4 @@
-# Modeling and Simulating the Solar System in C
+# Modeling and Simulating the Solar System in C and C++
 
 This repository documents my journey learning computer graphics,
 mathematics, simulation, and visualization using C, Raylib,
@@ -14,4 +14,6 @@ Current goals:
 - Create Models using publicly available date for Jupiter's and Saturn's moons
 
 Projects are added incrementally as I learn.
+
+As of June 28th I decided to continue the project in C++. My experience using classes and methods in Python will help me build classes to represent objects in our solar system and their traits.
 
