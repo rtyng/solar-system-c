@@ -3,7 +3,8 @@
 File: orbit.c
 
 Purpose:
-    Implements orbital mechanics for planetary motion.
+    - Implements orbital mechanics for planetary motion.
+    - Promises not to create orbit objects, only to teach the compiler how an orbit behaves
 
 Responsibilities:
     - Circular orbit calculations
@@ -14,63 +15,34 @@ Responsibilities:
 Used by:
     main.c
 ------------------------------------------------------------------------------
-
-Will need to create the logic for these:
-    - Euler integration
-    - Kepler equation solving
-    - true anomaly calculation
-    - elliptical position math
-    - gravity acceleration math
 */
 #include <math.h>
 #include <raymath.h>
 
-#include "../include/orbit.h"
+#include "../include/orbit.hpp"
 
 
-// Computes gravitational acceleration toward the Sun.
+// Computes gravitational acceleration acting on an orbit from the Sun.
 Vector3 ComputeAcceleration(Vector3 position, double mu)
-{
+{   
+    // center sun at origin 
+    Vector3 sunPosition = { 0.0f, 0.0f, 0.0f };
 
-    float distance = Vector3Length(position);
+    
 
-    // Avoid division by zero.
-    if (distance == 0.0f)
-        return Vector3Zero();
-
-    // Newton's law of gravitation:
-    // a = -mu / r² * r̂
-
-    float magnitude = -(float)(mu / (distance * distance));
-
-    Vector3 direction = Vector3Normalize(position);
-
-    return Vector3Scale(direction, magnitude);
+   return;
 }
 
 
-// Advances the orbit one timestep using Euler integration.
-void UpdateOrbit(OrbitState *state, double mu, float dt)
+// Advance the orbit one timestep using Euler integration.
+void UpdateOrbit(Orbit *state, double mu, float dt)
 {
-    // Compute acceleration from current position.
-    Vector3 acceleration = ComputeAcceleration(state->position, mu);
-
-    // Integrate velocity.
-    state->velocity = Vector3Add(
-        state->velocity,
-        Vector3Scale(acceleration, dt)
-    );
-
-    // Integrate position.
-    state->position = Vector3Add(
-        state->position,
-        Vector3Scale(state->velocity, dt)
-    );
+    return;
 }
 
 
-// Converts meters into raylib world units.
+// Convert meters into raylib world units.
 Vector3 PhysicsToRender(Vector3 physicsPosition)
 {
-    return Vector3Scale(physicsPosition, 1.0f / SIM_SCALE);
+    return;
 }

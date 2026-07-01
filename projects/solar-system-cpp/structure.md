@@ -16,32 +16,32 @@ camera control
 
 File responsibilites
 
-main.c
+main.cpp
     - Owns the window, main loop, global camera, and calls everything.
 
-planet.c/planet.h
+planet.cpp/planet.hpp
     - Planet data and rendering: radius, rotation speed, texture, model, current position.
 
-orbit.c / orbit.h 
+orbit.cpp / orbit.hpp 
     - Orbital math: circular orbit first, then elliptical/Keplerian orbit later.
 
-lighting.c / lighting.h
+lighting.cpp / lighting.hpp
     - Shader loading, light direction, uniform updates.
 
-camera_controller.c / camera_controller.h
+camera_controller.cpp / camera_controller.hpp
     - Orbit camera, zoom, click-to-focus, smooth movement.
 
-ui.c / ui.h
+ui.cpp / ui.hpp
     - Planet info panel, labels, debug text.
 
-.c file  = implementation: how something works | where the logic lives
-.h file  = interface: what other files are allowed to use
+.cpp file  = implementation: how something works | where the logic lives
+.hpp file  = interface: what other files are allowed to use
 
 example:
-orbit.h says:
+orbit.hpp says:
     These functions/types exist.
 
-orbit.c says:
+orbit.cpp says:
     Here is how those functions actually work.
 
 
