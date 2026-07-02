@@ -12,4 +12,5 @@
 
     mu = GM
 
-Will go derive this on paper to get the equation needed in ComputeAcceleration the orbit source file
+4. a = GM/r^2 -> a = mu/r^2 -> a = m^3/s^2 / m^2 -> (m^3/s^2)*(1/m^2) ---> a = m/s^2
+

@@ -22,8 +22,10 @@ orbit.c needs this to prove implementations match the contract between main and 
 #define ORBIT_HPP
 
 #include <raylib.h>
+#include <raymath.h>
 
-// Sun's gravitational parameter: GM_sun in m^3 / s^2
+
+// Sun's gravitational parameter: GM_sun in m^3/s^2
 constexpr double MU_SUN = 1.32712440018e20;
 
 // Scale: 1 raylib world unit = 1,000,000,000 meters
@@ -37,7 +39,7 @@ public:
         inputs:
             - Vector3 initialPosition
             - Vector3 initialVelocity
-            - double mu = MU_SUN | defaults to the Sun's gravitational parameter in m^3 / s^2
+            - double mu = MU_SUN | defaults to the Sun's gravitational parameter in m^3/s^2
                 - gravitational parameter
     */
     Orbit(Vector3 initialPosition, Vector3 initialVelocity, double mu = MU_SUN);
