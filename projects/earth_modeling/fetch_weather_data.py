@@ -1,4 +1,5 @@
 """
+-----------------------------------------------------------
 Goal:
 - Use the open-meteo API to fetch weather data for the DMV area
 
@@ -14,6 +15,9 @@ What I need to understand and then implement here:
     - Github API
 - Integrating Pandas with API calls and data collecting
 
+-------------------------------------------------------
+Openmeteo creates an API call for the data a user selects
+Below is the copy pasted API call
 """
 
 import openmeteo_requests

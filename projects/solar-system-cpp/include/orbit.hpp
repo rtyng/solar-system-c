@@ -48,8 +48,11 @@ public:
     void Update() -> Modifier
     It will advance an orbit object forward by one simulated time-step dt with
     user's choice of numerical integration method
+
+    Note: Changed dt to a double for computational precision and to reduce error overtime
+    - Will have to render in floats for raylib
     */
-    void Update(float dt);
+    void Update(double dt);
 
     /*
     The following getters grab position, velocity, and render position information from private access
@@ -73,6 +76,7 @@ private:
     // ComputeAcceleration() promises not to modify the orbit object in question
     // read-only member function
     Vector3 ComputeAcceleration() const;
+    Vector3 GetRenderPosition() const;
 };
 
 #endif

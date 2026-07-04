@@ -1,7 +1,18 @@
-Considering this a solar system simulation I figure now is a good time to use raylib, my texture pipelines, and my intro physics knowledge to start building a 3d model of the solar system
+Considering this a solar system simulation I figure now is a good time to use the experience from learning raylib in C and my intro physics knowledge to start building a 3d model of the solar system
 
-Will be using raylib so I don't have to build everything from scratch
+Sources:
 
+JPL's Solar System Dynamics
+
+- <https://ssd.jpl.nasa.gov>
+“Solar System Dynamics. (Downloaded Year, Month, Date). (Title of the Page). <https://ssd.jpl.nasa.gov”>
+- <https://ssd.jpl.nasa.gov/planets/approx_pos.html>
+      - This source will be for integrating keplerian mechanics
+
+UMD Numerical Integration with examples:
+
+- I will refer to this source after I test out Euler's method and upgrade
+- <https://physics.umd.edu/hep/drew/numerical_integration/>
 
 Milestone Order
 
@@ -16,7 +27,6 @@ Milestone Order
 9. Add click selection
 10. Add UI/data panel
 
-
 Dependencies so far:
 
 <raylib.h>
@@ -28,9 +38,9 @@ Development loop:
 
 module
       ↓
-source 
+source
       ↓
-main source 
+main source
       ↓
 Verify it works
       ↓
@@ -38,6 +48,8 @@ Next module
 
 will be easier to catch bugs and pinpoint where they are coming from
 
-general build command 
+----------------------------------------------------------
 
-g++ file.cpp -std=c++20 -Wall -Wextra -Wpedantic -o file.exe
+general build command for testing out orbit module implementation
+
+g++ main.cpp orbit.cpp -std=c++20 -Wall -Wextra -Wpedantic -o solar_system.exe -lraylib -lopengl32 -lgdi32 -lwinmm

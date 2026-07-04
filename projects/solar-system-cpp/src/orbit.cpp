@@ -2,9 +2,10 @@
 ------------------------------------------------------------------------------
 File: orbit.c
 
-Purpose:
+Purpose and Promises:
     - Implements orbital mechanics for planetary motion.
     - Promises not to create orbit objects, only to teach the compiler how an orbit behaves
+    - Promises not to worry about how these will be rendered
 
 Responsibilities:
     - Circular orbit calculations
@@ -56,15 +57,47 @@ Vector3 ComputeAcceleration(Vector3 position, double mu)
 }
 
 
-// Advance the orbit one timestep using Euler integration.
-void UpdateOrbit(Orbit *state, double mu, float dt)
+/*
+Update the orbit within the simulation by time-step dt using Euler Integration 
+Acceleration -> Velocity -> Position estimation
+Notes:
+    - Euler's method will work very well with the rendering loop due to continuous tiny approximations per frame 
+    - Euler's method will also introduce error into the orbit so later this method will have to be replaced 
+
+    - main.cpp owns the loop
+    - Orbit::Update owns one timestep
+    - ComputeAcceleration owns one acceleration calculation
+-------------------------------------------------------------------------------
+Responsibility:
+    - Implement Euler's numerical integration method to advance the orbit by one simulation time step dt
+Inputs:
+    - double dt -> the time-step
+Outputs:
+    - void
+*/
+void Orbit::Update(double dt)
 {
-    return;
+    // Assign ComputeAcceleration() to internal acceleration of object's data
+    Vector3 acceleration = ComputeAcceleration();
+    // Use Acceleration to update velocity | assign it to private member variable
+    velocity = velocity + acceleration*dt;
+    // Use Velocity to update position | assign to private member variable
+    position = position + velocity*dt;
 }
 
 
-// Convert meters into raylib world units.
+/*
+Convert meters into raylib world units.
+-----------------------------------------------
+Responsibility:
+    - This function will use the vari
+Inputs:
+    - double dt -> the time-step
+Outputs:
+    - void
+*/ 
 Vector3 PhysicsToRender(Vector3 physicsPosition)
 {
+    // 
     return;
 }
